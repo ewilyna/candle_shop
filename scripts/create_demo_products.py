@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 """
-Скрипт для загрузки демонстрационных товаров в базу данных
+Скрипт для загрузки демонстрационных товаров в базу данных с изображениями
 """
 import os
 import sys
 import django
+import shutil
+from pathlib import Path
 
 # Настройка окружения Django
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -13,10 +15,11 @@ django.setup()
 
 # Импорт моделей
 from shop.models import Category, Product
+from django.core.files import File
 
 def create_demo_products():
     """
-    Создает демонстрационные категории и товары
+    Создает демонстрационные категории и товары с изображениями
     """
     # Создание категорий
     categories = [
@@ -52,7 +55,7 @@ def create_demo_products():
         else:
             print(f"Категория уже существует: {category.name}")
     
-    # Создание товаров
+    # Создание товаров с изображениями
     products = [
         {
             'category': 'classic-candles',
@@ -63,7 +66,8 @@ def create_demo_products():
             'stock': 25,
             'aroma': 'Лаванда',
             'burn_time': 40,
-            'weight': 250.00
+            'weight': 250.00,
+            'image_name': 'lavender_garden.jpg'
         },
         {
             'category': 'classic-candles',
@@ -74,7 +78,8 @@ def create_demo_products():
             'stock': 30,
             'aroma': 'Ваниль',
             'burn_time': 35,
-            'weight': 220.00
+            'weight': 220.00,
+            'image_name': 'vanilla_cloud.jpg'
         },
         {
             'category': 'soy-candles',
@@ -85,7 +90,8 @@ def create_demo_products():
             'stock': 20,
             'aroma': 'Морской бриз',
             'burn_time': 45,
-            'weight': 280.00
+            'weight': 280.00,
+            'image_name': 'sea_breeze.jpg'
         },
         {
             'category': 'soy-candles',
@@ -96,7 +102,8 @@ def create_demo_products():
             'stock': 15,
             'aroma': 'Цитрусовые',
             'burn_time': 38,
-            'weight': 240.00
+            'weight': 240.00,
+            'image_name': 'citrus_mix.jpg'
         },
         {
             'category': 'gift-sets',
@@ -107,7 +114,8 @@ def create_demo_products():
             'stock': 10,
             'aroma': 'Ассорти',
             'burn_time': 120,
-            'weight': 600.00
+            'weight': 600.00,
+            'image_name': 'seasons_set.jpg'
         },
         {
             'category': 'gift-sets',
@@ -118,9 +126,13 @@ def create_demo_products():
             'stock': 12,
             'aroma': 'Спа-ароматы',
             'burn_time': 90,
-            'weight': 450.00
+            'weight': 450.00,
+            'image_name': 'spa_day_set.jpg'
         }
     ]
+    
+    # Путь к директории с изображениями
+    images_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'media', 'products')
     
     for prod_data in products:
         product, created = Product.objects.get_or_create(
@@ -137,12 +149,22 @@ def create_demo_products():
                 'weight': prod_data['weight']
             }
         )
+        
+        # Добавление изображения к товару
+        image_path = os.path.join(images_dir, prod_data['image_name'])
+        if os.path.exists(image_path):
+            with open(image_path, 'rb') as img_file:
+                product.image.save(prod_data['image_name'], File(img_file), save=True)
+            print(f"Добавлено изображение для товара: {product.name}")
+        else:
+            print(f"Изображение не найдено для товара: {product.name}")
+        
         if created:
             print(f"Создан товар: {product.name}")
         else:
-            print(f"Товар уже существует: {product.name}")
+            print(f"Товар обновлен: {product.name}")
 
 if __name__ == '__main__':
-    print("Начало создания демонстрационных товаров...")
+    print("Начало создания демонстрационных товаров с изображениями...")
     create_demo_products()
-    print("Демонстрационные товары успешно созданы!")
+    print("Демонстрационные товары с изображениями успешно созданы!")
