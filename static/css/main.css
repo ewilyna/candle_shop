@@ -1,0 +1,294 @@
+/* 
+ * Основные стили для интернет-магазина ароматических свечей "Свечной Дом"
+ * Теплая, уютная цветовая палитра и адаптивный дизайн
+ */
+
+:root {
+  /* Основная цветовая палитра */
+  --primary-color: #e67e22;      /* Теплый оранжевый */
+  --primary-dark: #d35400;       /* Темный оранжевый */
+  --secondary-color: #f39c12;    /* Янтарный */
+  --accent-color: #c0392b;       /* Теплый красный */
+  --light-color: #fcf3e7;        /* Светлый кремовый */
+  --dark-color: #4a3c2d;         /* Темный коричневый */
+  --text-color: #2c3e50;         /* Темно-синий для текста */
+  --gray-light: #ecf0f1;         /* Светло-серый */
+  --gray-medium: #bdc3c7;        /* Средне-серый */
+  --success-color: #27ae60;      /* Зеленый */
+  --danger-color: #e74c3c;       /* Красный */
+}
+
+/* Общие стили */
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+  background-color: #f9f5f0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: var(--dark-color);
+}
+
+a {
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: none;
+}
+
+/* Кнопки */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Навигационная панель */
+.navbar {
+  background-color: white !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  color: var(--primary-color) !important;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--dark-color);
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: var(--primary-color);
+}
+
+.navbar-light .navbar-nav .active > .nav-link {
+  color: var(--primary-color);
+}
+
+/* Карточки товаров */
+.card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+}
+
+.product-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Формы */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+}
+
+/* Хлебные крошки */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0.5rem 0;
+}
+
+.breadcrumb-item a {
+  color: var(--primary-color);
+}
+
+.breadcrumb-item.active {
+  color: var(--gray-medium);
+}
+
+/* Подвал */
+footer {
+  background-color: white !important;
+}
+
+footer h5 {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.social-links a {
+  color: var(--dark-color);
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 767.98px) {
+  .card-img-top {
+    height: 180px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+  
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+}
+
+/* Главная страница */
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 5rem 0;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.hero-section h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+/* Категории на главной */
+.category-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  height: 200px;
+}
+
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.05);
+}
+
+.category-card .category-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 1rem;
+}
+
+.category-card .category-overlay h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+/* Бейджи и метки */
+.badge {
+  padding: 0.4em 0.6em;
+}
+
+.badge-primary {
+  background-color: var(--primary-color);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Стили для страницы товара */
+.product-details .price {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Стили для корзины */
+.cart-item {
+  transition: background-color 0.3s ease;
+}
+
+.cart-item:hover {
+  background-color: var(--light-color);
+}
+
+/* Стили для аккордеона в истории заказов */
+.accordion-button:not(.collapsed) {
+  background-color: var(--light-color);
+  color: var(--primary-color);
+}
+
+/* Стили для алертов */
+.alert-primary {
+  background-color: var(--light-color);
+  border-color: var(--primary-color);
+  color: var(--primary-dark);
+}
+
+/* Стили для пагинации */
+.page-item.active .page-link {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.page-link {
+  color: var(--primary-color);
+}
+
+.page-link:hover {
+  color: var(--primary-dark);
+}

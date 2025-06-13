@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Личный кабинет - Свечной Дом{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">Навигация</h2>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'profile' %}" class="list-group-item list-group-item-action active">
+                    <i class="fas fa-user-circle me-2"></i> Мой профиль
+                </a>
+                <a href="{% url 'order_history' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-history me-2"></i> История заказов
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h4 mb-0">Мой профиль</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

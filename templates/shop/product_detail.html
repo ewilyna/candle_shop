@@ -1,0 +1,110 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ product.name }} - Свечной Дом{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog' %}">Каталог</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'catalog' %}?category={{ product.category.slug }}">{{ product.category.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <!-- Изображение товара -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+                <img src="/static/images/no-image.jpg" class="card-img-top" alt="Нет изображения">
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Информация о товаре -->
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="h2 mb-2">{{ product.name }}</h1>
+                <p class="text-muted mb-3">{{ product.aroma }}</p>
+                
+                <div class="mb-3">
+                    <span class="h3 me-2">{{ product.price }} ₽</span>
+                    {% if product.stock > 0 %}
+                        <span class="badge bg-success">В наличии</span>
+                    {% else %}
+                        <span class="badge bg-danger">Нет в наличии</span>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <h5>Характеристики:</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>Аромат:</strong> {{ product.aroma }}</li>
+                        <li><strong>Время горения:</strong> {{ product.burn_time }} часов</li>
+                        <li><strong>Вес:</strong> {{ product.weight }} г</li>
+                        <li><strong>Категория:</strong> {{ product.category.name }}</li>
+                    </ul>
+                </div>
+                
+                {% if product.stock > 0 %}
+                    <form method="post" action="{% url 'add_to_cart' product.id %}" class="mb-4">
+                        {% csrf_token %}
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="quantity" class="col-form-label">Количество:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="{{ product.stock }}">
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-shopping-cart me-2"></i>В корзину
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+                
+                <div class="mt-4">
+                    <h5>Описание:</h5>
+                    <p>{{ product.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Похожие товары -->
+{% if related_products %}
+    <div class="mt-5">
+        <h3 class="mb-4">Похожие товары</h3>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            {% for related in related_products %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <div class="position-relative">
+                            {% if related.image %}
+                                <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.name }}">
+                            {% else %}
+                                <img src="/static/images/no-image.jpg" class="card-img-top" alt="Нет изображения">
+                            {% endif %}
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ related.name }}</h5>
+                            <p class="card-text text-muted small">{{ related.aroma }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <span class="h6 mb-0">{{ related.price }} ₽</span>
+                                <a href="{{ related.get_absolute_url }}" class="btn btn-outline-primary btn-sm">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
