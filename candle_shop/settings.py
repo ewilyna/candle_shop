@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-candle-shop-secret-key-for-development'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
